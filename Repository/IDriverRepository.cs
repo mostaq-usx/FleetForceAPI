@@ -4,11 +4,11 @@ namespace FleetForceAPI.Repository
 {
     public interface IDriverRepository
     {
-        Task<Driver> AddDriver(Driver driver);
-        Task<Driver> UpdateDriver(Driver driver);
+        Task<Driver> AddDriverAsync(Driver driver);
+        Task<Driver> UpdateDriverAsync(Driver driver);
 
         bool DeleteDriver(string id);
-        IEnumerable<Driver> List();
+        Task<IEnumerable<Driver>> GetAllDriversListAsync();
         Driver Details(string id);
     }
 }

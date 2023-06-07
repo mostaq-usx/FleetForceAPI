@@ -20,14 +20,32 @@ namespace FleetForceAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Gets()
+        public async Task<ActionResult<ApiResponse<List<Driver>>>> GetAllDriversListAsync()
         {
-            var driver = _driverRepository.List();
-            if (driver.Any())
+            try
             {
-                return StatusCode(StatusCodes.Status200OK, _mapper.Map<IEnumerable<DriverDTO>>(driver));
+                var drivers = await _driverRepository.GetAllDriversListAsync();
+                if (drivers == null)
+                {
+                    var response = new ApiResponse<List<Driver>>
+                    {
+                        TraceId = "7ae88305118242f980a4c2d79affa2aa",
+                        IsSuccessful = true,
+                        Data = drivers.ToList(),
+                        Message = "Driver list fetched successfully.",
+                        Timestamp = DateTime.UtcNow
+                    };
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
             }
-            return StatusCode(StatusCodes.Status204NoContent);
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
         }
 
         [HttpGet("details")]
@@ -44,36 +62,91 @@ namespace FleetForceAPI.Controllers
         [HttpDelete]
         public IActionResult Delete(string id)
         {
-            var driver = _driverRepository.DeleteDriver(id);
-            if (driver is true)
+            try
             {
-                return StatusCode(StatusCodes.Status200OK);
+                var driver = _driverRepository.DeleteDriver(id);
+                if (driver is true)
+                {
+                    var response = new ApiResponse<List<Driver>>
+                    {
+                        //TraceId = driver.Id,
+                        IsSuccessful = true,
+                        //Data = driver.ToString(),
+                        Message = "Driver deleted successfully.",
+                        Timestamp = DateTime.UtcNow
+                    };
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
             }
-            return StatusCode(StatusCodes.Status400BadRequest);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(DriverDTO driverDTO)
         {
-            var mapModel = _mapper.Map<Driver>(driverDTO);
-            var result = await _driverRepository.AddDriver(mapModel);
-            if (result is not null)
+            try
             {
-                return StatusCode(StatusCodes.Status201Created, _mapper.Map<DriverDTO>(result));
+                var mapModel = _mapper.Map<Driver>(driverDTO);
+                var driver = await _driverRepository.AddDriverAsync(mapModel);
+                if (driver is not null)
+                {
+                    var response = new ApiResponse<List<Driver>>
+                    {
+                        TraceId = driver.Id,
+                        IsSuccessful = true,
+                        //Data = driver.ToString(),
+                        Message = "Driver created successfully.",
+                        Timestamp = DateTime.UtcNow
+                    };
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
+                
             }
-            return StatusCode(StatusCodes.Status400BadRequest);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(DriverDTO driverDTO)
         {
-            var mapModel = _mapper.Map<Driver>(driverDTO);
-            var result = await _driverRepository.UpdateDriver(mapModel);
-            if (result is not null)
+            try
             {
-                return StatusCode(StatusCodes.Status200OK, _mapper.Map<DriverDTO>(result));
+                var mapModel = _mapper.Map<Driver>(driverDTO);
+                var driver = await _driverRepository.UpdateDriverAsync(mapModel);
+                if(driver is not null)
+                {
+                    var response = new ApiResponse<List<Driver>>
+                    {
+                        TraceId = driver.Id,
+                        IsSuccessful = true,
+                        //Data = driver.ToString(),
+                        Message = "Driver updated successfully.",
+                        Timestamp = DateTime.UtcNow
+                    };
+                    return Ok(response);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest);
+                }
             }
-            return StatusCode(StatusCodes.Status400BadRequest);
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
         }
     }
 }

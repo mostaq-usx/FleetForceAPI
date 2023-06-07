@@ -10,7 +10,7 @@ namespace FleetForceAPI.Repository
         {
             _drivers = mongoDatabase.GetCollection<Driver>("my_col");
         }
-        public async Task<Driver> AddDriver(Driver driver)
+        public async Task<Driver> AddDriverAsync(Driver driver)
         {
             if (driver is not null)
             {
@@ -36,12 +36,14 @@ namespace FleetForceAPI.Repository
             return _drivers.Find(m => m.Id == id).FirstOrDefault();
         }
 
-        public IEnumerable<Driver> List()
+        public async Task<IEnumerable<Driver>> GetAllDriversListAsync()
         {
-            return _drivers.Find(_ => true).ToList();
+            await Task.Delay(100);
+
+            return await _drivers.Find(_ => true).ToListAsync();
         }
 
-        public async Task<Driver> UpdateDriver(Driver driver)
+        public async Task<Driver> UpdateDriverAsync(Driver driver)
         {
             var driverDetails = Details(driver.Id);
             if (driverDetails is not null)
