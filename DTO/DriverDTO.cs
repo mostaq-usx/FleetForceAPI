@@ -10,7 +10,7 @@ namespace FleetForceAPI.DTO
         [BsonElement("id")]
         public string Id { get; set; }
         [BsonElement("name")]
-        [Required]
+        //[Required]
         public string Name { get; set; }
         [BsonElement("loadDate")]
         public DateTime LoadDate { get; set; }

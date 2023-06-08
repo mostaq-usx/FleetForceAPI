@@ -8,7 +8,7 @@ namespace FleetForceAPI.Models
     {
         [BsonRepresentation(BsonType.String)]
         [BsonElement("id")]
-        [Required]
+        //[Required]
         public string Id { get; set; }
         [BsonElement("name")]
         public string Name { get; set; }

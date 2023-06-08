@@ -8,31 +8,31 @@ namespace FleetForceAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class DriverController : ControllerBase
+    public class TruckController : ControllerBase
     {
-        private readonly IDriverRepository _driverRepository;
+        private readonly ITruckRepository _truckRepository;
         private readonly IMapper _mapper;
 
-        public DriverController(IDriverRepository driverRepository, IMapper mapper)
+        public TruckController(ITruckRepository truckRepository, IMapper mapper)
         {
-            _driverRepository = driverRepository;
+            _truckRepository = truckRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ApiResponse<List<Driver>>>> GetAllDriversListAsync()
+        public async Task<ActionResult<ApiResponse<List<Truck>>>> GetAllTrucksListAsync()
         {
             try
             {
-                var drivers = await _driverRepository.GetAllDriversListAsync();
-                if (drivers is not null)
+                var trucks = await _truckRepository.GetAllTrucksListAsync();
+                if (trucks is not null)
                 {
-                    var response = new ApiResponse<List<Driver>>
+                    var response = new ApiResponse<List<Truck>>
                     {
-                        TraceId = "7ae88305118242f980a4c2d79affa2aa",
+                        //TraceId = "7ae88305118242f980a4c2d79affa2aa",
                         IsSuccessful = true,
-                        Data = drivers.ToList(),
-                        Message = "Driver list fetched successfully.",
+                        Data = trucks.ToList(),
+                        Message = "Trucks list fetched successfully.",
                         Timestamp = DateTime.UtcNow
                     };
                     return Ok(response);
@@ -42,7 +42,7 @@ namespace FleetForceAPI.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }
@@ -51,10 +51,10 @@ namespace FleetForceAPI.Controllers
         [HttpGet("details")]
         public IActionResult Get(string id)
         {
-            var driver = _driverRepository.Details(id);
-            if (driver is not null)
+            var truck = _truckRepository.Details(id);
+            if (truck is not null)
             {
-                return StatusCode(StatusCodes.Status200OK, _mapper.Map<DriverDTO>(driver));
+                return StatusCode(StatusCodes.Status200OK, _mapper.Map<TruckDTO>(truck));
             }
             return StatusCode(StatusCodes.Status404NotFound);
         }
@@ -64,15 +64,15 @@ namespace FleetForceAPI.Controllers
         {
             try
             {
-                var driver = _driverRepository.DeleteDriver(id);
-                if (driver is true)
+                var truck = _truckRepository.DeleteTruck(id);
+                if (truck is true)
                 {
-                    var response = new ApiResponse<List<Driver>>
+                    var response = new ApiResponse<List<Truck>>
                     {
-                        //TraceId = driver.Id,
+                        //TraceId = truck.Id,
                         IsSuccessful = true,
-                        //Data = driver.ToString(),
-                        Message = "Driver deleted successfully.",
+                        //Data = truck.ToString(),
+                        Message = "Truck deleted successfully.",
                         Timestamp = DateTime.UtcNow
                     };
                     return Ok(response);
@@ -89,20 +89,20 @@ namespace FleetForceAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(DriverDTO driverDTO)
+        public async Task<IActionResult> Post(TruckDTO truckDTO)
         {
             try
             {
-                var mapModel = _mapper.Map<Driver>(driverDTO);
-                var driver = await _driverRepository.AddDriverAsync(mapModel);
-                if (driver is not null)
+                var mapModel = _mapper.Map<Truck>(truckDTO);
+                var truck = await _truckRepository.AddTruckAsync(mapModel);
+                if (truck is not null)
                 {
-                    var response = new ApiResponse<List<Driver>>
+                    var response = new ApiResponse<List<Truck>>
                     {
-                        TraceId = driver.Id,
+                        TraceId = truck.Id,
                         IsSuccessful = true,
-                        //Data = driver.ToString(),
-                        Message = "Driver created successfully.",
+                        //Data = truck.ToString(),
+                        Message = "Truck created successfully.",
                         Timestamp = DateTime.UtcNow
                     };
                     return Ok(response);
@@ -111,7 +111,7 @@ namespace FleetForceAPI.Controllers
                 {
                     return StatusCode(StatusCodes.Status400BadRequest);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -120,20 +120,20 @@ namespace FleetForceAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(DriverDTO driverDTO)
+        public async Task<IActionResult> Put(TruckDTO truckDTO)
         {
             try
             {
-                var mapModel = _mapper.Map<Driver>(driverDTO);
-                var driver = await _driverRepository.UpdateDriverAsync(mapModel);
-                if(driver is not null)
+                var mapModel = _mapper.Map<Truck>(truckDTO);
+                var truck = await _truckRepository.UpdateTruckAsync(mapModel);
+                if (truck is not null)
                 {
-                    var response = new ApiResponse<List<Driver>>
+                    var response = new ApiResponse<List<Truck>>
                     {
-                        TraceId = driver.Id,
+                        TraceId = truck.Id,
                         IsSuccessful = true,
-                        //Data = driver.ToString(),
-                        Message = "Driver updated successfully.",
+                        //Data = truck.ToString(),
+                        Message = "Truck updated successfully.",
                         Timestamp = DateTime.UtcNow
                     };
                     return Ok(response);
@@ -143,7 +143,7 @@ namespace FleetForceAPI.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status400BadRequest);
             }

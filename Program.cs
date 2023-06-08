@@ -21,6 +21,9 @@ builder.Services.AddSingleton<IMongoDatabase>(options =>{
 // Register driver repository
 builder.Services.AddSingleton<IDriverRepository, DriverRepository>();
 
+// Register truck repository
+builder.Services.AddSingleton<ITruckRepository, TruckRepository>();
+
 // Register autoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

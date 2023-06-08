@@ -8,7 +8,7 @@ namespace FleetForceAPI.Repository
         private readonly IMongoCollection<Driver> _drivers;
         public DriverRepository(IMongoDatabase mongoDatabase)
         {
-            _drivers = mongoDatabase.GetCollection<Driver>("my_col");
+            _drivers = mongoDatabase.GetCollection<Driver>("driver");
         }
         public async Task<Driver> AddDriverAsync(Driver driver)
         {
