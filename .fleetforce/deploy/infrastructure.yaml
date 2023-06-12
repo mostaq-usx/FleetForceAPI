@@ -1,0 +1,24 @@
+# This example deploys an API application.
+name: fleetforceapi
+octopus:
+    space: DevOps
+    group: demo
+tags:
+    owner: MyTeam
+    team: MyTeam
+    purpose: "Serves an API"
+
+# Here is the infrastructure
+infrastructure:
+  dynamodb:
+    managed:
+      - name: hello
+        reference: hw
+        hash_key: id
+        attributes:
+          - name: id
+            type: "S"
+            
+api:
+    service:
+        targetPort: 8080 # The API will be exposed on port 8080
