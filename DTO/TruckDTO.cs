@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace FleetForceAPI.DTO
 {
-    public class TruckDTO
+    public class TruckDTO : BaseDTO
     {
         [BsonRepresentation(BsonType.String)]
         [BsonElement("id")]

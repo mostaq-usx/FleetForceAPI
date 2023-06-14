@@ -1,4 +1,5 @@
 ﻿using FleetForceAPI.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace FleetForceAPI.Repository
@@ -41,6 +42,38 @@ namespace FleetForceAPI.Repository
             await Task.Delay(100);
 
             return await _drivers.Find(_ => true).ToListAsync();
+        }
+
+        public async Task<List<Driver>> GetFilterDriversAsync(string filterBy)
+        {
+            var filter = Builders<Driver>.Filter.Regex(x => x.Name, new BsonRegularExpression(filterBy, "i"));
+            var filteredDrivers = await _drivers.Find(filter).ToListAsync();
+            return filteredDrivers;
+        }
+
+        public async Task<List<Driver>> GetSortDriversAsync(string sortOrder)
+        {
+            var sortDefinition = Builders<Driver>.Sort.Ascending(p => p.Name);
+
+            if (sortOrder.ToLower() == "desc")
+            {
+                sortDefinition = Builders<Driver>.Sort.Descending(p => p.Name);
+            }
+
+            var sortedDrivers = await _drivers.Find(Builders<Driver>.Filter.Empty)
+                                                   .Sort(sortDefinition)
+                                                   .ToListAsync();
+            return sortedDrivers;
+        }
+
+        public async Task<List<Driver>> GetPagedDriversAsync(int page, int pageSize)
+        {
+            var skip = (page - 1) * pageSize;
+            var drivers = await _drivers.Find(Builders<Driver>.Filter.Empty)
+                .Skip(skip)
+                .Limit(pageSize)
+                .ToListAsync();
+            return drivers;
         }
 
         public async Task<Driver> UpdateDriverAsync(Driver driver)
