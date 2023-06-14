@@ -1,5 +1,7 @@
 ﻿using FleetForceAPI.Models;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Globalization;
 
 namespace FleetForceAPI.Repository
 {
@@ -41,6 +43,38 @@ namespace FleetForceAPI.Repository
             await Task.Delay(100);
 
             return await _trucks.Find(_ => true).ToListAsync();
+        }
+
+        public async Task<List<Truck>> GetFilterTrucksAsync(string filterBy)
+        {
+            var filter = Builders<Truck>.Filter.Regex(x => x.Number, new BsonRegularExpression(filterBy, "i"));
+            var filteredTrucks = await _trucks.Find(filter).ToListAsync();
+            return filteredTrucks;
+        }
+
+        public async Task<List<Truck>> GetSortTrucksAsync(string sortOrder)
+        {
+            var sortDefinition = Builders<Truck>.Sort.Ascending(p => p.Number);
+
+            if (sortOrder.ToLower() == "desc")
+            {
+                sortDefinition = Builders<Truck>.Sort.Descending(p => p.Number);
+            }
+
+            var sortedTrucks = await _trucks.Find(Builders<Truck>.Filter.Empty)
+                                                   .Sort(sortDefinition)
+                                                   .ToListAsync();
+            return sortedTrucks;
+        }
+
+        public async Task<List<Truck>> GetPagedTrucksAsync(int page, int pageSize)
+        {
+            var skip = (page - 1) * pageSize;
+            var trucks = await _trucks.Find(Builders<Truck>.Filter.Empty)
+                .Skip(skip)
+                .Limit(pageSize)
+                .ToListAsync();
+            return trucks;
         }
 
         public async Task<Truck> UpdateTruckAsync(Truck truck)

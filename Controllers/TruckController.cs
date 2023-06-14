@@ -48,6 +48,32 @@ namespace FleetForceAPI.Controllers
             }
         }
 
+        [HttpGet("filterby")]
+        public async Task<IActionResult> FilterTrucks([FromQuery] string filterby)
+        {
+            var trucks = await _truckRepository.GetFilterTrucksAsync(filterby);
+            return Ok(trucks);
+        }
+
+        [HttpGet("sortBy")]
+        public async Task<IActionResult> SortTrucks([FromQuery] string sortOrder)
+        {
+            if (sortOrder.ToLower() != "asc" && sortOrder.ToLower() != "desc")
+            {
+                return BadRequest("Invalid sortOrder value. Use 'asc' or 'desc'.");
+            }
+
+            var trucks = await _truckRepository.GetSortTrucksAsync(sortOrder);
+            return Ok(trucks);
+        }
+
+        [HttpGet("paged")]
+        public async Task<IActionResult> GetPagedTrucks([FromQuery] int page, [FromQuery] int pageSize)
+        {
+            var trucks = await _truckRepository.GetPagedTrucksAsync(page, pageSize);
+            return Ok(trucks);
+        }
+
         [HttpGet("details")]
         public IActionResult Get(string id)
         {
