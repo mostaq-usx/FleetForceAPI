@@ -24,6 +24,9 @@ builder.Services.AddSingleton<IDriverRepository, DriverRepository>();
 // Register truck repository
 builder.Services.AddSingleton<ITruckRepository, TruckRepository>();
 
+// Register load repository
+builder.Services.AddSingleton<ILoadRepository, LoadRepository>();
+
 // Register autoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
