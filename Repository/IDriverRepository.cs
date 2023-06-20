@@ -19,5 +19,7 @@ namespace FleetForceAPI.Repository
         Task<List<Driver>> GetPagedDriversAsync(int page, int pageSize);
 
         Driver Details(string id);
+
+        Task<List<Driver>> GetSearchedDriverAsync(string searchTerm);
     }
 }

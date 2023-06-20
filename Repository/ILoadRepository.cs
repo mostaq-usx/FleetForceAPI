@@ -19,5 +19,7 @@ namespace FleetForceAPI.Repository
         Task<List<Load>> GetPagedLoadsAsync(int page, int pageSize);
 
         Load Details(string id);
+
+        Task<List<Load>> GetSearchedLoadAsync(string searchTerm);
     }
 }

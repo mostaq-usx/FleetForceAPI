@@ -99,5 +99,12 @@ namespace FleetForceAPI.Repository
             }
             return truckDetails;
         }
+
+        public async Task<List<Truck>> GetSearchedTruckAsync(string searchTerm)
+        {
+            var search = Builders<Truck>.Filter.Regex(x => x.Number, new BsonRegularExpression(searchTerm, "i"));
+            var searchedTrucks = await _trucks.Find(search).ToListAsync();
+            return searchedTrucks;
+        }
     }
 }

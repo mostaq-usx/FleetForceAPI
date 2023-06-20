@@ -90,5 +90,12 @@ namespace FleetForceAPI.Repository
             }
             return driverDetails;
         }
+
+        public async Task<List<Driver>> GetSearchedDriverAsync(string searchTerm)
+        {
+            var search = Builders<Driver>.Filter.Regex(x => x.Name, new BsonRegularExpression(searchTerm, "i"));
+            var searchedDrivers = await _drivers.Find(search).ToListAsync();
+            return searchedDrivers;
+        }
     }
 }

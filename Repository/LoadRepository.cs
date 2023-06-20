@@ -93,5 +93,12 @@ namespace FleetForceAPI.Repository
             }
             return loadDetails;
         }
+
+        public async Task<List<Load>> GetSearchedLoadAsync(string searchTerm)
+        {
+            var search = Builders<Load>.Filter.Regex(x => x.Number, new BsonRegularExpression(searchTerm, "i"));
+            var searchedLoads = await _loads.Find(search).ToListAsync();
+            return searchedLoads;
+        }
     }
 }
