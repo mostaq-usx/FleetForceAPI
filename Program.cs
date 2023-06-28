@@ -4,6 +4,7 @@ using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -38,6 +39,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => builder
+ //.AllowAnyOrigin()
+ .WithOrigins("http://localhost:27017", "http://localhost:49153")
+ .AllowAnyOrigin()
+ .AllowAnyMethod()
+ .AllowAnyHeader()
+);
 
 app.UseHttpsRedirection();
 
