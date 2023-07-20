@@ -83,9 +83,9 @@ namespace FleetForceAPI.Repository
             {
                 // Automapper or any mapping libraries or function is usefull to map these properties together.
                 driverDetails.Name = driver.Name;
-                driverDetails.LoadDate = driver.LoadDate;
-                driverDetails.Customer = driver.Customer;
-                driverDetails.Load = driver.Load;
+                //driverDetails.LoadDate = driver.LoadDate;
+                //driverDetails.Customer = driver.Customer;
+                //driverDetails.Load = driver.Load;
                 await _drivers.ReplaceOneAsync(m => m.Id == driverDetails.Id, driver);
             }
             return driverDetails;

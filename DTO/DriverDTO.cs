@@ -10,10 +10,10 @@ namespace FleetForceAPI.DTO
 
         public string Name { get; set; }
        
-        public DateTime LoadDate { get; set; }
+        //public DateTime LoadDate { get; set; }
         
-        public string Customer { get; set; }
+        //public string Customer { get; set; }
 
-        public int Load { get; set; }
+        //public int Load { get; set; }
     }
 }

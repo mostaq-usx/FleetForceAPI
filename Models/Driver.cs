@@ -12,11 +12,11 @@ namespace FleetForceAPI.Models
         public string Id { get; set; }
         [BsonElement("name")]
         public string Name { get; set; }
-        [BsonElement("loadDate")]
-        public DateTime LoadDate { get; set; }
-        [BsonElement("customer")]
-        public string Customer { get; set; }
-        [BsonElement("load")]
-        public int Load { get; set; }
+        //[BsonElement("loadDate")]
+        //public DateTime LoadDate { get; set; }
+        //[BsonElement("customer")]
+        //public string Customer { get; set; }
+        //[BsonElement("load")]
+        //public int Load { get; set; }
     }
 }
