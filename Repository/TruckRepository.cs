@@ -84,16 +84,18 @@ namespace FleetForceAPI.Repository
             {
                 // Automapper or any mapping libraries or function is usefull to map these properties together.
                 truckDetails.Number = truck.Number;
-                truckDetails.Company = truck.Company;
-                truckDetails.AssetOwner = truck.AssetOwner;
-                truckDetails.As400CoverageName = truck.As400CoverageName;
-                truckDetails.CoveringManager = truck.CoveringManager;
-                truckDetails.ManagerNetworkName = truck.ManagerNetworkName;
-                truckDetails.Status = truck.Status;
-                truckDetails.IgnitionStatus = truck.IgnitionStatus;
-                truckDetails.IsTrailerSkirt = truck.IsTrailerSkirt;
-                truckDetails.IsInShop = truck.IsInShop;
-                truckDetails.TruckInShopDescription = truck.TruckInShopDescription;
+                truckDetails.Driver = truck.Driver;
+                truckDetails.Availability = truck.Availability;
+                truckDetails.Loads = truck.Loads;
+                
+                
+                //truckDetails.CoveringManager = truck.CoveringManager;
+                //truckDetails.ManagerNetworkName = truck.ManagerNetworkName;
+                //truckDetails.Status = truck.Status;
+                //truckDetails.IgnitionStatus = truck.IgnitionStatus;
+                //truckDetails.IsTrailerSkirt = truck.IsTrailerSkirt;
+                //truckDetails.IsInShop = truck.IsInShop;
+                //truckDetails.TruckInShopDescription = truck.TruckInShopDescription;
 
                 await _trucks.ReplaceOneAsync(m => m.Id == truckDetails.Id, truck);
             }

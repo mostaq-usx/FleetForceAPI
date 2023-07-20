@@ -10,6 +10,6 @@
 
         public string LoadType { get; set; }
 
-        public string Stops { get; set; }
+        public List<string> Stops { get; set; }
     }
 }
